@@ -78,13 +78,13 @@ async (conn, mek, m, { from, reply }) => {
 
     const keys = Object.keys(category).sort();
     for (let k of keys) {
-      menuText += `\n*╭─『 ${k.toUpperCase()} 』*`;
+      menuText += `\n╭─『 *${k.toUpperCase()} MINI* 』`;
       const cmds = category[k].filter(c => c.pattern).sort((a, b) => a.pattern.localeCompare(b.pattern));
       cmds.forEach((cmd) => {
         const usage = cmd.pattern.split('|')[0];
-        menuText += `\n*├◉ ${config.PREFIX}${toSmallCaps(usage)}*`;
+        menuText += `\n├◉ ${config.PREFIX}${toSmallCaps(usage)}`;
       });
-      menuText += `\n*╰────────────────◉*`;
+      menuText += `\n╰────────────────◉`;
     }
 
     const selectedStyle = menuText;

@@ -11,7 +11,7 @@ cmd({
     filename: __filename,
 },
 async (conn, mek, m, { from, reply }) => {
-    const githubRepoURL = 'https://github.com/PrinceXtremeX/mini-xtreme';
+    const githubRepoURL = 'https://github.com/PrinceXtremeX/XTREME-XMD';
 
     try {
         const match = githubRepoURL.match(/github\.com\/([^/]+)\/([^/]+)/);
@@ -21,7 +21,7 @@ async (conn, mek, m, { from, reply }) => {
 
         const response = await fetch(`https://api.github.com/repos/${username}/${repoName}`, {
             headers: {
-                'User-Agent': 'mini-xtreme'
+                'User-Agent': 'XTREME-XMD'
             }
         });
 

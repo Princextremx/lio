@@ -55,24 +55,6 @@ async (conn, mek, m, { from, args, isCreator, reply }) => {
     }
 });
 
-cmd({
-    pattern: "setprefix",
-    alias: ["prefix"],
-    react: "🔧",
-    desc: "Change the bot's command prefix.",
-    category: "settings",
-    filename: __filename,
-}, async (conn, mek, m, { from, args, isCreator, reply }) => {
-    if (!isCreator) return reply("*📛 Only the owner can use this command!*");
-
-    const newPrefix = args[0]; // Get the new prefix from the command arguments
-    if (!newPrefix) return reply("❌ Please provide a new prefix. Example: `.setprefix !`");
-
-    // Update the prefix in memory
-    config.PREFIX = newPrefix;
-
-    return reply(`*_✅ ᴘʀᴇғɪx sᴜᴄᴄᴇssғᴜʟʟʏ ᴄʜᴀɴɢᴇᴅ ᴛᴏ_* *${newPrefix}*`);
-});
 
 cmd({
     pattern: "mode",
@@ -102,50 +84,6 @@ cmd({
     }
 });
 
-cmd({
-    pattern: "auto-typing",
-    description: "Enable or disable auto-typing feature.",
-    category: "settings",
-    filename: __filename
-},    
-async (conn, mek, m, { from, args, isCreator, reply }) => {
-    if (!isCreator) return reply("*📛 ᴏɴʟʏ ᴛʜᴇ ᴏᴡɴᴇʀ ᴄᴀɴ ᴜsᴇ ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ!*");
-
-    const status = args[0]?.toLowerCase();
-    if (!["on", "off"].includes(status)) {
-        return reply("*🫟 ᴇxᴀᴍᴘʟᴇ:  .ᴀᴜᴛᴏ-ᴛʏᴘɪɴɢ ᴏɴ*");
-    }
-
-    config.AUTO_TYPING = status === "on" ? "true" : "false";
-    return reply(`Auto typing has been turned ${status}.`);
-});
-
-//mention reply 
-
-
-cmd({
-    pattern: "mention-reply",
-    alias: ["menetionreply", "reply"],
-    description: "Set bot status to always online or offline.",
-    category: "settings",
-    filename: __filename
-},    
-async (conn, mek, m, { from, args, isCreator, reply }) => {
-    if (!isCreator) return reply("*📛 ᴏɴʟʏ ᴛʜᴇ ᴏᴡɴᴇʀ ᴄᴀɴ ᴜsᴇ ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ!*");
-
-    const status = args[0]?.toLowerCase();
-    // Check the argument for enabling or disabling the anticall feature
-    if (args[0] === "on") {
-        config.MENTION_REPLY = "true";
-        return reply("Mention Reply feature is now enabled.");
-    } else if (args[0] === "off") {
-        config.MENTION_REPLY = "false";
-        return reply("Mention Reply feature is now disabled.");
-    } else {
-        return reply(`_example:  .mee on_`);
-    }
-});
-
 
 //--------------------------------------------
 // ALWAYS_ONLINE COMMANDS
@@ -172,33 +110,6 @@ async (conn, mek, m, { from, args, isCreator, reply }) => {
     }
 });
 
-//--------------------------------------------
-//  AUTO_RECORDING COMMANDS
-//--------------------------------------------
-cmd({
-    pattern: "auto-recording",
-    alias: ["autorecoding"],
-    description: "Enable or disable auto-recording feature.",
-    category: "settings",
-    filename: __filename
-},    
-async (conn, mek, m, { from, args, isCreator, reply }) => {
-    if (!isCreator) return reply("*📛 ᴏɴʟʏ ᴛʜᴇ ᴏᴡɴᴇʀ ᴄᴀɴ ᴜsᴇ ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ!*");
-
-    const status = args[0]?.toLowerCase();
-    if (!["on", "off"].includes(status)) {
-        return reply("*🫟 ᴇxᴀᴍᴘʟᴇ: .ᴀᴜᴛᴏ-ʀᴇᴄᴏʀᴅɪɴɢ ᴏɴ*");
-    }
-
-    config.AUTO_RECORDING = status === "on" ? "true" : "false";
-    if (status === "on") {
-        await conn.sendPresenceUpdate("recording", from);
-        return reply("Auto recording is now enabled. Bot is recording...");
-    } else {
-        await conn.sendPresenceUpdate("available", from);
-        return reply("Auto recording has been disabled.");
-    }
-});
 //--------------------------------------------
 // AUTO_VIEW_STATUS COMMANDS
 //--------------------------------------------
@@ -432,33 +343,6 @@ async (conn, mek, m, { from, args, isCreator, reply }) => {
 //--------------------------------------------
 //  ANTILINK COMMANDS
 //--------------------------------------------
-
-cmd({
-  pattern: "antilink",
-  alias: ["antilinks"],
-  desc: "Enable or disable ANTI_LINK in groups",
-  category: "group",
-  react: "🚫",
-  filename: __filename
-}, async (conn, mek, m, { isGroup, isAdmins, isBotAdmins, args, reply }) => {
-  try {
-    if (!isGroup) return reply('This command can only be used in a group.');
-    if (!isBotAdmins) return reply('Bot must be an admin to use this command.');
-    if (!isAdmins) return reply('You must be an admin to use this command.');
-
-    if (args[0] === "on") {
-      config.ANTI_LINK = "true";
-      reply("✅ ANTI_LINK has been enabled.");
-    } else if (args[0] === "off") {
-      config.ANTI_LINK = "false";
-      reply("❌ ANTI_LINK has been disabled.");
-    } else {
-      reply("Usage: *.antilink on/off*");
-    }
-  } catch (e) {
-    reply(`Error: ${e.message}`);
-  }
-});
 
 cmd({
   pattern: "antilinkkick",
