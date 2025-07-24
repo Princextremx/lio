@@ -98,8 +98,7 @@ const port = process.env.PORT || 9090;
       
   conn.ev.on('connection.update', (update) => {
   const { connection, lastDisconnect } = update
-  if (connection === 'close') {
-  if (lastDisconnect.error.output.statusCode !== DisconnectReason.loggedOut) {
+  if (connection === 'close'){  (lastDisconnect.error.output.statusCode !== DisconnectReason.loggedOut) {
   connectToWA()
   }
   } else if (connection === 'open') {
