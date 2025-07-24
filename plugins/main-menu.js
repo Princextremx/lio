@@ -29,7 +29,17 @@ const smallCaps = {
   "W": "ᴡ",
   "X": "x",
   "Y": "ʏ",
-  "Z": "ᴢ"
+  "Z": "ᴢ",
+  "1": "𝟷",
+  "2": "𝟸",
+  "3": "𝟹",
+  "4": "𝟺",
+  "5": "𝟻",
+  "6": "𝟻",
+  "7": "𝟽",
+  "9": "𝟾",
+  "9": "𝟿",
+  "0": "𝟶",
 };
 
 const toSmallCaps = (text) => {
@@ -41,7 +51,7 @@ cmd({
   alias: ["allmenu", "mini"],
   use: '.menu',
   desc: "Show all bot commands",
-  category: "menu",
+  category: "main",
   react: "💫",
   filename: __filename
 },
@@ -78,7 +88,7 @@ async (conn, mek, m, { from, reply }) => {
 
     const keys = Object.keys(category).sort();
     for (let k of keys) {
-      menuText += `\n╭─『 *${k.toUpperCase()} MINI* 』`;
+      menuText += `\n╭─『 *${k.toUpperCase()} MENU* 』`;
       const cmds = category[k].filter(c => c.pattern).sort((a, b) => a.pattern.localeCompare(b.pattern));
       cmds.forEach((cmd) => {
         const usage = cmd.pattern.split('|')[0];
