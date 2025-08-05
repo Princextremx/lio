@@ -40,14 +40,14 @@ async (conn, mek, m, { from, participants, reply, isGroup, isAdmins, isCreator, 
         let message = body.slice(body.indexOf(command) + command.length).trim();
         if (!message) message = "ᴀᴛᴛᴇɴᴛɪᴏɴ ᴇᴠᴇʀʏᴏɴᴇ";
 
-        let teks = `╭─ 「 *\`TAG ALL\`* 」\n│✺ ɢʀᴏᴜᴘ : *${groupName}*\n│✺ ᴍᴇᴍʙᴇʀs : *${totalMembers}*\n│✺ ᴍᴇssᴀɢᴇ: *${message}*\n╰─────────────❍\n\n╭─ 「 *\`XTREME TAG\`* 」\n`;
+        let teks = `╭─ 「 *\`TAG ALL\`* 」\n│✺ ɢʀᴏᴜᴘ : *${groupName}*\n│✺ ᴍᴇᴍʙᴇʀs : *${totalMembers}*\n│✺ ᴍᴇssᴀɢᴇ: *${message}*\n╰─────────────❍\n\n╭─ 「 *\`𝐌𝐈𝐍𝐈 𝐓𝐀𝐆\`* 」\n`;
 
         for (let mem of participants) {
             if (!mem.id) continue;
             teks += `${randomEmoji} @${mem.id.split('@')[0]}\n`;
         }
 
-        teks += "└──❖ 𝐗𝐓𝐑𝐄𝐌𝐄-𝐗𝐌𝐃 ❖──";
+        teks += "└──❖ 𝐌𝐈𝐍𝐈-𝐁𝐎𝐓 ❖──";
         
          // Send the image along with the message
         const imageUrl = "https://files.catbox.moe/sezpgg.jpg";  // Replace with your image URL or local image path
