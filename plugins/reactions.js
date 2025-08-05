@@ -6,7 +6,7 @@ cmd(
     {
         pattern: "cry",
         desc: "Send a crying reaction GIF.",
-        category: "🎭 fun",
+        category: "fun",
         react: "😢",
         filename: __filename,
         use: "@tag (optional)",
@@ -46,7 +46,7 @@ cmd(
     {
         pattern: "cuddle",
         desc: "Send a cuddle reaction GIF.",
-        category: "🎭 fun",
+        category: "fun",
         react: "🤗",
         filename: __filename,
         use: "@tag (optional)",
@@ -86,7 +86,7 @@ cmd(
     {
         pattern: "bully",
         desc: "Send a bully reaction GIF.",
-        category: "🎭 fun",
+        category: "fun",
         react: "😈",
         filename: __filename,
         use: "@tag (optional)",
@@ -126,7 +126,7 @@ cmd(
     {
         pattern: "hug",
         desc: "Send a hug reaction GIF.",
-        category: "🎭 fun",
+        category: "fun",
         react: "🤗",
         filename: __filename,
         use: "@tag (optional)",
@@ -167,7 +167,7 @@ cmd(
     {
         pattern: "awoo",
         desc: "Send an awoo reaction GIF.",
-        category: "🎭 fun",
+        category: "fun",
         react: "🐺",
         filename: __filename,
         use: "@tag (optional)",
@@ -207,7 +207,7 @@ cmd(
     {
         pattern: "lick",
         desc: "Send a lick reaction GIF.",
-        category: "🎭 fun",
+        category: "fun",
         react: "👅",
         filename: __filename,
         use: "@tag (optional)",
@@ -242,7 +242,7 @@ cmd(
     {
         pattern: "pat",
         desc: "Send a pat reaction GIF.",
-        category: "🎭 fun",
+        category: "fun",
         react: "🫂",
         filename: __filename,
         use: "@tag (optional)",
@@ -282,7 +282,7 @@ cmd(
     {
         pattern: "smug",
         desc: "Send a smug reaction GIF.",
-        category: "🎭 fun",
+        category: "fun",
         react: "😏",
         filename: __filename,
         use: "@tag (optional)",
@@ -322,7 +322,7 @@ cmd(
     {
         pattern: "bonk",
         desc: "Send a bonk reaction GIF.",
-        category: "🎭 fun",
+        category: "fun",
         react: "🔨",
         filename: __filename,
         use: "@tag (optional)",
@@ -363,7 +363,7 @@ cmd(
     {
         pattern: "yeet",
         desc: "Send a yeet reaction GIF.",
-        category: "🎭 fun",
+        category: "fun",
         react: "💨",
         filename: __filename,
         use: "@tag (optional)",
@@ -403,7 +403,7 @@ cmd(
     {
         pattern: "blush",
         desc: "Send a blush reaction GIF.",
-        category: "🎭 fun",
+        category: "fun",
         react: "😊",
         filename: __filename,
         use: "@tag (optional)",
@@ -443,7 +443,7 @@ cmd(
     {
         pattern: "handhold",
         desc: "Send a hand-holding reaction GIF.",
-        category: "🎭 fun",
+        category: "fun",
         react: "🤝",
         filename: __filename,
         use: "@tag (optional)",
@@ -484,7 +484,7 @@ cmd(
     {
         pattern: "highfive",
         desc: "Send a high-five reaction GIF.",
-        category: "🎭 fun",
+        category: "fun",
         react: "✋",
         filename: __filename,
         use: "@tag (optional)",
@@ -524,7 +524,7 @@ cmd(
     {
         pattern: "nom",
         desc: "Send a nom reaction GIF.",
-        category: "🎭 fun",
+        category: "fun",
         react: "🍽️",
         filename: __filename,
         use: "@tag (optional)",
@@ -564,7 +564,7 @@ cmd(
     {
         pattern: "wave",
         desc: "Send a wave reaction GIF.",
-        category: "🎭 fun",
+        category: "fun",
         react: "👋",
         filename: __filename,
         use: "@tag (optional)",
@@ -604,7 +604,7 @@ cmd(
     {
         pattern: "smile",
         desc: "Send a smile reaction GIF.",
-        category: "🎭 fun",
+        category: "fun",
         react: "😁",
         filename: __filename,
         use: "@tag (optional)",
@@ -644,7 +644,7 @@ cmd(
     {
         pattern: "wink",
         desc: "Send a wink reaction GIF.",
-        category: "🎭 fun",
+        category: "fun",
         react: "😉",
         filename: __filename,
         use: "@tag (optional)",
@@ -684,7 +684,7 @@ cmd(
     {
         pattern: "happy",
         desc: "Send a happy reaction GIF.",
-        category: "🎭 fun",
+        category: "fun",
         react: "😊",
         filename: __filename,
         use: "@tag (optional)",
@@ -724,7 +724,7 @@ cmd(
     {
         pattern: "glomp",
         desc: "Send a glomp reaction GIF.",
-        category: "🎭 fun",
+        category: "fun",
         react: "🤗",
         filename: __filename,
         use: "@tag (optional)",
@@ -764,7 +764,7 @@ cmd(
     {
         pattern: "bite",
         desc: "Send a bite reaction GIF.",
-        category: "🎭 fun",
+        category: "fun",
         react: "🦷",
         filename: __filename,
         use: "@tag (optional)",
@@ -804,7 +804,7 @@ cmd(
     {
         pattern: "poke",
         desc: "Send a poke reaction GIF.",
-        category: "🎭 fun",
+        category: "fun",
         react: "👉",
         filename: __filename,
         use: "@tag (optional)",
@@ -845,7 +845,7 @@ cmd(
     {
         pattern: "cringe",
         desc: "Send a cringe reaction GIF.",
-        category: "🎭 fun",
+        category: "fun",
         react: "😬",
         filename: __filename,
         use: "@tag (optional)",
@@ -886,7 +886,7 @@ cmd(
     {
         pattern: "dance",
         desc: "Send a dance reaction GIF.",
-        category: "🎭 fun",
+        category: "fun",
         react: "💃",
         filename: __filename,
         use: "@tag (optional)",
@@ -928,7 +928,7 @@ cmd(
     {
         pattern: "kill",
         desc: "Send a kill reaction GIF.",
-        category: "🎭 fun",
+        category: "fun",
         react: "🔪",
         filename: __filename,
         use: "@tag (optional)",
@@ -972,7 +972,7 @@ cmd(
     {
         pattern: "slap",
         desc: "Send a slap reaction GIF.",
-        category: "🎭 fun",
+        category: "fun",
         react: "✊",
         filename: __filename,
         use: "@tag (optional)",
@@ -1016,7 +1016,7 @@ cmd(
     {
         pattern: "kiss",
         desc: "Send a kiss reaction GIF.",
-        category: "🎭 fun",
+        category: "fun",
         react: "💋",
         filename: __filename,
         use: "@tag (optional)",
