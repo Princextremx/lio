@@ -19,7 +19,7 @@ cmd({
         await reply("*🔍 ᴄʜᴇᴄᴋɪɴɢ ғᴏʀ ᴜᴘᴅᴀᴛᴇs...*");
 
         // Fetch the latest commit hash from GitHub
-        const { data: commitData } = await axios.get("https://api.github.com/repos/PrinceXtremeX/mini-xtreme/commits/main");
+        const { data: commitData } = await axios.get("https://api.github.com/repos/PrinceXtremeX/MINI-BOT/commits/main");
         const latestCommitHash = commitData.sha;
 
         // Get the stored commit hash from the database
@@ -33,7 +33,7 @@ cmd({
 
         // Download the latest code
         const zipPath = path.join(__dirname, "latest.zip");
-        const { data: zipData } = await axios.get("https://github.com/PrinceXtremeX/mini-xtreme/archive/main.zip", { responseType: "arraybuffer" });
+        const { data: zipData } = await axios.get("https://github.com/PrinceXtremeX/MINI-BOT/archive/main.zip", { responseType: "arraybuffer" });
         fs.writeFileSync(zipPath, zipData);
 
         // Extract ZIP file
@@ -44,7 +44,7 @@ cmd({
 
         // Copy updated files, preserving config.js and app.json
         await reply("*🔄 ʀᴇᴘʟᴀᴄɪɴɢ ғɪʟᴇs...*");
-        const sourcePath = path.join(extractPath, "mini-xtreme-main");
+        const sourcePath = path.join(extractPath, "MINI-BOT-main");
         const destinationPath = path.join(__dirname, '..');
         copyFolderSync(sourcePath, destinationPath);
 
