@@ -1,12 +1,12 @@
 {
-  "name": "mini-xtreme",
-  "version": "1.0",
+  "name": "MINI-BOT",
+  "version": "1.0.0",
   "description": "A WhatsApp Bot Created By Dev prince xtreme",
   "main": "index.js",
   "scripts": {
-    "start": "pm2 start index.js --deep-monitoring --attach --name mini-xtreme",
-    "stop": "pm2 stop mini-xtreme",
-    "restart": "pm2 restart mini-xtreme"
+    "start": "pm2 start index.js --deep-monitoring --attach --name MINI-BOT",
+    "stop": "pm2 stop MINI-BOT",
+    "restart": "pm2 restart MINI-BOT"
   },
   "dependencies": {
    "@whiskeysockets/baileys": "npm:baileys-pro@0.0.5",
