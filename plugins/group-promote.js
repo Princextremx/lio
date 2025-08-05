@@ -2,7 +2,7 @@ const { cmd } = require('../command');
 
 cmd({
     pattern: "promote",
-    alias: ["xtreme-appoint", "makeadmin"],
+    alias: ["xtreme-appoint", "makeadmins"],
     desc: "Promotes a member to group admin",
     category: "admin",
     react: "⬆️",
