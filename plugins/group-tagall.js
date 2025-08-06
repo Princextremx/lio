@@ -40,7 +40,7 @@ async (conn, mek, m, { from, participants, reply, isGroup, isAdmins, isCreator, 
         let message = body.slice(body.indexOf(command) + command.length).trim();
         if (!message) message = "ᴀᴛᴛᴇɴᴛɪᴏɴ ᴇᴠᴇʀʏᴏɴᴇ";
 
-        let teks = `╭─ 「 *\`TAG ALL\`* 」\n│✺ ɢʀᴏᴜᴘ : *${groupName}*\n│✺ ᴍᴇᴍʙᴇʀs : *${totalMembers}*\n│✺ ᴍᴇssᴀɢᴇ: *${message}*\n╰─────────────❍\n\n╭─ 「 *\`𝐌𝐈𝐍𝐈 𝐓𝐀𝐆\`* 」\n`;
+        let teks = `╭─ 「 *\`𝐌𝐈𝐍𝐈-𝐁𝐎𝐓\`* 」\n│✺ ɢʀᴏᴜᴘ : *${groupName}*\n│✺ ᴍᴇᴍʙᴇʀs : *${totalMembers}*\n│✺ ᴍᴇssᴀɢᴇ: *${message}*\n╰─────────────❍\n\n╭─ 「 *\`𝐌𝐈𝐍𝐈 𝐓𝐀𝐆\`* 」\n`;
 
         for (let mem of participants) {
             if (!mem.id) continue;
