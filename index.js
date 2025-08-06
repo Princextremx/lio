@@ -211,7 +211,7 @@ message:{
 	     const username = `PrinceXtremeX`;
              const mrfrank = `https://github.com/${username}`;
 	
-                    const upMessage = `
+                    const upMessage = `*ᴄᴏɴɴᴇᴄᴛᴇᴅ sᴜᴄᴄᴇssғᴜʟʟʏ!*
 ╭───「 \`𝐌𝐈𝐍𝐈-𝐁𝐎𝐓\` 」*
 *│• ᴛʏᴘᴇ  .ᴍᴇɴᴜ ᴛᴏ sᴇᴇ ʟɪsᴛ •*
 *│• ʙᴏᴛ ᴀᴍᴀᴢɪɴɢ ғᴇᴀᴛᴜʀᴇs •*
