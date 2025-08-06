@@ -11,7 +11,7 @@ cmd({
     filename: __filename,
 },
 async (conn, mek, m, { from, reply }) => {
-    const githubRepoURL = 'https://github.com/PrinceXtremeX/XTREME-XMD';
+    const githubRepoURL = 'https://github.com/PrinceXtremeX/MINI-BOT';
 
     try {
         const match = githubRepoURL.match(/github\.com\/([^/]+)\/([^/]+)/);
@@ -21,7 +21,7 @@ async (conn, mek, m, { from, reply }) => {
 
         const response = await fetch(`https://api.github.com/repos/${username}/${repoName}`, {
             headers: {
-                'User-Agent': 'XTREME-XMD'
+                'User-Agent': 'MINI-BOT'
             }
         });
 
@@ -53,7 +53,7 @@ async (conn, mek, m, { from, reply }) => {
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
                         newsletterJid: '120363418161689316@newsletter',
-                    newsletterName:'𝐌𝐈𝐍𝐈-𝐗𝐓𝐑𝐄𝐌𝐄',
+                    newsletterName:'𝐌𝐈𝐍𝐈-𝐁𝐎𝐓',
                     serverMessageId: 143
                 }
             }
