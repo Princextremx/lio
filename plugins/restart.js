@@ -3,7 +3,7 @@ const { sleep } = require("../lib/functions");
 
 cmd({  
     pattern: "restart",  
-    desc: "Restart bot",  
+    desc: "Restart MEGALODON-MD",  
     category: "owner",  
     filename: __filename  
 },  
@@ -14,7 +14,7 @@ async (conn, mek, m, { reply, isCreator }) => {
         }  
 
         const { exec } = require("child_process");  
-        reply("mini bot restarting...");  
+        reply("🤖 ᴍɪɴɪ ʙᴏᴛ ʀᴇꜱᴛᴀʀᴛɪɴɢ...");  
         await sleep(1500);  
         exec("pm2 restart all");  
     } catch (e) {  
