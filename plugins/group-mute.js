@@ -26,4 +26,4 @@ if (!isBotAdmins) return reply(mg.needbotadmins);
 console.log(e);
 reply('*PLEASE GIVE ME A ADMIN ROLE❗👻*')    
 } 
-})
+});
