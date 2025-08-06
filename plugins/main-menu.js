@@ -68,7 +68,7 @@ async (conn, mek, m, { from, reply }) => {
       return `${h}h ${m}m ${s}s`;
     };
 
-    let menuText = `╭─ 「 *\`𝐌𝐈𝐍𝐈-𝐗𝐓𝐑𝐄𝐌𝐄\`* 」
+    let menuText = `╭─ 「 *\`𝐌𝐈𝐍𝐈-𝐁𝐎𝐓\`* 」
 *│* ❈ *ᴜsᴇʀ* : @${m.sender.split("@")[0]}
 *│* ❈ *ʀᴜɴᴛɪᴍᴇ* : ${uptime()}
 *│* ❈ *ᴍᴏᴅᴇ* : ${config.MODE}
@@ -88,13 +88,13 @@ async (conn, mek, m, { from, reply }) => {
 
     const keys = Object.keys(category).sort();
     for (let k of keys) {
-      menuText += `\n╭─『 *${k.toUpperCase()} MENU* 』`;
+      menuText += `\n╭─『 *🎀${k.toUpperCase()} BOT🎀* 』`;
       const cmds = category[k].filter(c => c.pattern).sort((a, b) => a.pattern.localeCompare(b.pattern));
       cmds.forEach((cmd) => {
         const usage = cmd.pattern.split('|')[0];
         menuText += `\n├◉ ${config.PREFIX}${toSmallCaps(usage)}`;
       });
-      menuText += `\n╰────────────────◉`;
+      menuText += `\n╰────────────────❍`;
     }
 
     const selectedStyle = menuText;
