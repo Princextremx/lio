@@ -14,7 +14,7 @@ try{
     const uptime = runtime(process.uptime());
     const startTime = new Date(Date.now() - process.uptime() * 1000);
 let about = `╭─ 「 *\`𝐌𝐈𝐍𝐈-𝐁𝐎𝐓\`* 」
-│꙳ *ʙᴏᴛ ɴᴀᴍᴇ* ↔ xᴛʀᴇᴍᴇ xᴍᴅ
+│꙳ *ʙᴏᴛ ɴᴀᴍᴇ* ↔ ᴍɪɴɪ ʙᴏᴛ
 │꙳ *sᴛᴀᴛᴜs* ↔ ᴏɴʟɪɴᴇ
 │꙳ *ᴀᴜᴛᴏ ʀᴇsᴛᴀʀᴛ* ↔ ᴏɴʟɪɴᴇ
 │꙳ *ʙᴏᴛ ʀᴜɴ* ↔ ${uptime}
