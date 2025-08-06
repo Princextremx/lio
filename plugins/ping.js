@@ -35,7 +35,7 @@ async (conn, mek, m, { from, quoted, sender, reply }) => {
         const text = `╭─ 「 *\`𝐌𝐈𝐍𝐈-𝐗𝐓𝐑𝐄𝐌𝐄\`* 」
 ┃ 🤖 *BOT* : *𝐌𝐈𝐍𝐈-𝐗𝐓𝐑𝐄𝐌𝐄*
 ┃ ⏳ *PING* : *${responseTime.toFixed(2)}MS ${reactionEmoji}*
-╰━━━━━━━━━━━━━━━━━━╯
+╰━━━━━━━━━━━━━━━━━╯
 > *ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴘʀɪɴᴄᴇ xᴛʀᴇᴍᴇ*`;
 
         await conn.sendMessage(from, {
@@ -46,7 +46,7 @@ async (conn, mek, m, { from, quoted, sender, reply }) => {
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
                     newsletterJid: '120363418161689316@newsletter',
-                    newsletterName: "𝐌𝐈𝐍𝐈-𝐗𝐓𝐑𝐄𝐌𝐄",
+                    newsletterName: "𝐌𝐈𝐍𝐈-𝐁𝐎𝐓",
                     serverMessageId: 143
                 }
             }
