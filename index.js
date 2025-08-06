@@ -200,7 +200,7 @@ message:{
   newsletterAdminInviteMessage: { 
     newsletterJid: '120363418161689316@newsletter', //add your channel jid
     newsletterName: "𝐌𝐈𝐍𝐈 𝐁𝐎𝐓", //add your bot name
-    caption: botname + ` 𝐌𝐃 ` + ownername, 
+    caption: botname + `𝐌𝐃` + ownername, 
     inviteExpiration: 0
   }
  }
@@ -908,7 +908,7 @@ if (!isReact && config.CUSTOM_REACT === 'true') {
   }
   
   app.get("/", (req, res) => {
-  res.send("MINI XTREME STARTED ✅");
+  res.send("MINI-BOT STARTED ✅");
   });
   app.listen(port, () => console.log(`Server listening on port http://localhost:${port}`));
   setTimeout(() => {
