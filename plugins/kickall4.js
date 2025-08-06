@@ -3,7 +3,7 @@ const config = require('../config');
 
 cmd({
     pattern: "kickallfast",
-    alias: ["kickall", "kickrush"],
+    alias: ["kickall2", "kickrush"],
     desc: "*⚡ ʀᴇᴍᴏᴠᴇ ᴀʟʟ ɴᴏɴ-ᴀᴅᴍɪɴ ᴍᴇᴍʙᴇʀs ᴍᴏᴍᴇɴᴛᴀɴᴇᴍᴇɴᴛ*",
     react: "💣",
     category: "group",
