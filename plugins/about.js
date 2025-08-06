@@ -3,7 +3,7 @@ const { runtime } = require('../lib/functions');
 const {cmd , commands} = require('../command')
 cmd({
     pattern: "bot",
-    alias: "xtreme",
+    alias: "mini",
     react: "🤖",
     desc: "get owner dec",
     category: "misc",
@@ -13,7 +13,7 @@ async(conn, mek, m,{from, quoted, body, isCmd, command, args, q, isGroup, sender
 try{
     const uptime = runtime(process.uptime());
     const startTime = new Date(Date.now() - process.uptime() * 1000);
-let about = `╭─ 「 *\`BOT ONLINE\`* 」
+let about = `╭─ 「 *\`𝐌𝐈𝐍𝐈-𝐁𝐎𝐓\`* 」
 │꙳ *ʙᴏᴛ ɴᴀᴍᴇ* ↔ xᴛʀᴇᴍᴇ xᴍᴅ
 │꙳ *sᴛᴀᴛᴜs* ↔ ᴏɴʟɪɴᴇ
 │꙳ *ᴀᴜᴛᴏ ʀᴇsᴛᴀʀᴛ* ↔ ᴏɴʟɪɴᴇ
@@ -30,7 +30,7 @@ await conn.sendMessage(from, {
         isForwarded: true,
         forwardedNewsletterMessageInfo: {
             newsletterJid: '120363418161689316@newsletter', // ou ton JID actuel
-            newsletterName: '𝗫𝗧𝗥𝗘𝗠𝗘-𝗫𝗠𝗗',
+            newsletterName: '𝐌𝐈𝐍𝐈-𝐁𝐎𝐓',
             serverMessageId: 143
         }
     }
