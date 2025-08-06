@@ -56,7 +56,7 @@ cmd({
         isForwarded: true,
         forwardedNewsletterMessageInfo: {
           newsletterJid: '120363418161689316@newsletter',
-          newsletterName: '𝐗𝐓𝐑𝐄𝐌𝐄-𝐗𝐌𝐃',
+          newsletterName: '𝐌𝐈𝐍𝐈-𝐁𝐎𝐓',
           serverMessageId: 143
         }
       }
