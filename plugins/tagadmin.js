@@ -4,7 +4,7 @@ const config = require('../config')
 const { cmd, commands } = require('../command')
 
 cmd({
-    pattern: "tagadmin",
+    pattern: "tagadmins",
     alias: ["staff"],
     react: "📣",
     desc: "Tags all the admins in the group.",
@@ -34,4 +34,4 @@ try{
         console.error('Error tagging admins:', e);
         reply('you are not an admin.');
     }
-}
+});
