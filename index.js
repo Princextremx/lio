@@ -208,7 +208,7 @@ message:{
 			
 			
 			
-	     const username = `DybyTech`;
+	     const username = `PrinceXtremeX`;
              const mrfrank = `https://github.com/${username}`;
 	
                     const upMessage = `╭───「 \`𝐌𝐈𝐍𝐈-𝐁𝐎𝐓\` 」*
