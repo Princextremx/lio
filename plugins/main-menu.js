@@ -75,7 +75,7 @@ async (conn, mek, m, { from, reply }) => {
 *│* ❈ *ᴘʀᴇғɪx* : [${config.PREFIX}]
 *│* ❈ *ᴩʟᴜɢɪɴ* : ${totalCommands}
 *│* ❈ *ᴅᴇᴠ* : *\`ᴘʀɪɴᴄᴇ xᴛʀᴇᴍᴇ\`*
-*│* ❈ *ᴠᴇʀsɪᴏɴs* : 1.0
+*│* ❈ *ᴠᴇʀsɪᴏɴs* : 1.0.0
 *╰────────────────❍*
 `;
 
@@ -88,7 +88,7 @@ async (conn, mek, m, { from, reply }) => {
 
     const keys = Object.keys(category).sort();
     for (let k of keys) {
-      menuText += `\n╭─『 *🎀${k.toUpperCase()} BOT🎀* 』`;
+      menuText += `\n╭─『 *${k.toUpperCase()} BOT🎀* 』`;
       const cmds = category[k].filter(c => c.pattern).sort((a, b) => a.pattern.localeCompare(b.pattern));
       cmds.forEach((cmd) => {
         const usage = cmd.pattern.split('|')[0];
@@ -108,7 +108,7 @@ async (conn, mek, m, { from, reply }) => {
         isForwarded: true,
         forwardedNewsletterMessageInfo: {
           newsletterJid: '120363418161689316@newsletter',
-          newsletterName: '𝐌𝐈𝐍𝐈-𝐗𝐓𝐑𝐄𝐌𝐄',
+          newsletterName: '𝐌𝐈𝐍𝐈-𝐁𝐎𝐓',
           serverMessageId: 143
         }
       }
