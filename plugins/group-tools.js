@@ -49,7 +49,7 @@ cmd({
 
         // ➡️ Extraire le tag à partir du JID
         const tag = target.split('@')[0];
-        reply(`*_@${tag} promoted successfully_*`, { mentions: [target] });
+        reply(`*_@${tag} ᴘʀᴏᴍᴏᴛᴇᴅ sᴜᴄᴄᴇssғᴜʟʟʏ_*`, { mentions: [target] });
 
     } catch (error) {
         console.error('Error while executing promote:', error);
@@ -104,7 +104,7 @@ cmd({
 
         // ➡️ Extraire le tag à partir du JID
         const tag = target.split('@')[0];
-        reply(`*_@${tag} demoted successfully_*`, { mentions: [target] });
+        reply(`*_@${tag} ᴅᴇᴍᴏᴛᴇᴅ sᴜᴄᴄᴇssғᴜʟʟʏ_*`, { mentions: [target] });
 
     } catch (error) {
         console.error('Error while executing demote:', error);
