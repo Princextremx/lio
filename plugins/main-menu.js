@@ -100,7 +100,7 @@ async (conn, mek, m, { from, reply }) => {
     const selectedStyle = menuText;
 
     await conn.sendMessage(from, {
-      image: { url: 'https://files.catbox.moe/p01dj2.jpg' },
+      image: { url: 'https://files.catbox.moe/5kq6q7.jpg' },
       caption: selectedStyle,
       contextInfo: {
         mentionedJid: [m.sender],
