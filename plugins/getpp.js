@@ -40,8 +40,8 @@ async (conn, mek, m, { from, sender, reply, isGroup }) => {
       },
       message: {
         contactMessage: {
-          displayName: "𝐗𝐓𝐑𝐄𝐌𝐄-𝐗𝐌𝐃✅",
-          vcard: "BEGIN:VCARD\nVERSION:3.0\nFN: 𝐗𝐓𝐑𝐄𝐌𝐄-𝐗𝐌𝐃 ✅\nORG: 𝐗𝐓𝐑𝐄𝐌𝐄-𝐗𝐌𝐃;\nTEL;type=CELL;type=VOICE;waid=528145550855:+52 81 4555 0855\nEND:VCARD",
+          displayName: "𝐌𝐈𝐍𝐈-𝐁𝐎𝐓✅",
+          vcard: "BEGIN:VCARD\nVERSION:3.0\nFN: 𝐌𝐈𝐍𝐈-𝐁𝐎𝐓✅\nORG: 𝐌𝐈𝐍𝐈-𝐁𝐎𝐓;\nTEL;type=CELL;type=VOICE;waid=528145550855:+52 81 4555 0855\nEND:VCARD",
           jpegThumbnail: Buffer.from([])
         }
       }
@@ -55,7 +55,7 @@ async (conn, mek, m, { from, sender, reply, isGroup }) => {
         forwardingScore: 5,
         isForwarded: true,
         forwardedNewsletterMessageInfo: {
-          newsletterName: "𝐗𝐓𝐑𝐄𝐌𝐄-𝐗𝐌𝐃",
+          newsletterName: "𝐌𝐈𝐍𝐈-𝐁𝐎𝐓",
           newsletterJid: "120363418161689316@newsletter"
         }
       }
