@@ -165,7 +165,7 @@ cmd({
     alias: ["aja"],
     react: "➕",
     desc: "Adds a user to the group.",
-    category: "⛑️ group",
+    category: "group",
     filename: __filename,
     use: '<number>',
 },           
