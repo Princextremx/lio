@@ -29,7 +29,7 @@ async (conn, mek, m, { from, sender, reply, isGroup }) => {
     try {
       imageUrl = await conn.profilePictureUrl(targetJid, 'image');
     } catch {
-      imageUrl = "https://files.catbox.moe/ee7do3.jpg";
+      imageUrl = "https://files.catbox.moe/s25k11.jpg";
     }
 
     const fakeVCard = {
