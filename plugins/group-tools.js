@@ -205,18 +205,18 @@ cmd({
 }) => {
     try {
         // Ensure the command is used in a group
-        if (!isGroup) return reply(`❌ This command can only be used in groups.`);
+        if (!isGroup) return reply(`*❌ ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ ᴄᴀɴ ᴏɴʟʏ ʙᴇ ᴜsᴇᴅ ɪɴ ɢʀᴏᴜᴘs.*`);
 
         // Ensure the user is an admin
-        if (!isAdmins) return reply(`❌ Only group admins can use this command.`);
+        if (!isAdmins) return reply(`*❌ ᴏɴʟʏ ɢʀᴏᴜᴘ ᴀᴅᴍɪɴs ᴄᴀɴ ᴜsᴇ ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ.*`);
 
         // Ensure the bot has admin privileges
-        if (!isBotAdmins) return reply(`❌ I need admin privileges to remove group members.`);
+        if (!isBotAdmins) return reply(`*❌ ɪ ɴᴇᴇᴅ ᴀᴅᴍɪɴ ᴘʀɪᴠɪʟᴇɢᴇs ᴛᴏ ʀᴇᴍᴏᴠᴇ ɢʀᴏᴜᴘ ᴍᴇᴍʙᴇʀs.*`);
 
         stopKickall = false; // Reset stop flag
 
         // Warning message
-        reply(`⚠️ *Warning!* The bot will continuously remove all non-admin members until they are gone or the command is stopped using *.stop*.`);
+        reply(`⚠️ *ᴡᴀʀɴɪɴɢ!* ᴛʜᴇ ʙᴏᴛ ᴡɪʟʟ ᴄᴏɴᴛɪɴᴜᴏᴜsʟʏ ʀᴇᴍᴏᴠᴇ ᴀʟʟ ɴᴏɴ-ᴀᴅᴍɪɴ ᴍᴇᴍʙᴇʀs ᴜɴᴛɪʟ ᴛʜᴇʏ ᴀʀᴇ ɢᴏɴᴇ ᴏʀ ᴛʜᴇ ᴄᴏᴍᴍᴀɴᴅ ɪs sᴛᴏᴘᴘᴇᴅ ᴜsɪɴɢ *.sᴛᴏᴘ*.`);
 
         while (true) {
             // Get the latest list of participants
@@ -232,12 +232,12 @@ cmd({
 
             for (let participant of nonAdminParticipants) {
                 if (stopKickall) {
-                    reply(`✅ *Operation stopped by the user.* Some members may not have been removed.`);
+                    reply(`✅ *ᴏᴘᴇʀᴀᴛɪᴏɴ sᴛᴏᴘᴘᴇᴅ ʙʏ ᴛʜᴇ ᴜsᴇʀ.* sᴏᴍᴇ ᴍᴇᴍʙᴇʀs ᴍᴀʏ ɴᴏᴛ ʜᴀᴠᴇ ʙᴇᴇɴ ʀᴇᴍᴏᴠᴇᴅ.`);
                     return;
                 }
 
                 await conn.groupParticipantsUpdate(from, [participant.id], "remove")
-                    .catch(err => console.error(`⚠️ Failed to remove ${participant.id}:`, err));
+                    .catch(err => console.error(`⚠️ ғᴀɪʟᴇᴅ ᴛᴏ ʀᴇᴍᴏᴠᴇ ${participant.id}:`, err));
 
                 await delay(1000); // Wait 1 second before removing the next participant
             }
@@ -257,7 +257,7 @@ cmd({
     filename: __filename,
 }, async (conn, mek, m, { reply }) => {
     stopKickall = true; // Set the stop flag to true
-    reply(`✅ *Kickall operation has been stopped by the user.*`);
+    reply(`✅ *ᴋɪᴄᴋᴀʟʟ ᴏᴘᴇʀᴀᴛɪᴏɴ ʜᴀs ʙᴇᴇɴ sᴛᴏᴘᴘᴇᴅ ʙʏ ᴛʜᴇ ᴜsᴇʀ.*`);
 });
 
 cmd({
@@ -295,7 +295,7 @@ cmd({
         }
         
         if (!target) {
-            return reply("❌ Please mention or reply to the message of the participant to remove.");
+            return reply("*❌ ᴘʟᴇᴀsᴇ ᴍᴇɴᴛɪᴏɴ ᴏʀ ʀᴇᴘʟʏ ᴛᴏ ᴛʜᴇ ᴍᴇssᴀɢᴇ ᴏғ ᴛʜᴇ ᴘᴀʀᴛɪᴄɪᴘᴀɴᴛ ᴛᴏ ʀᴇᴍᴏᴠᴇ.*");
         }
         
         // Remove the participant from the group (admins can also be kicked)
@@ -307,9 +307,9 @@ cmd({
         
         // Extraire le tag à partir du JID (ex: "1234567890" sans "@s.whatsapp.net")
         const tag = target.split('@')[0];
-        reply(`*_@${tag} kicked successfully_*`, { mentions: [target] });
+        reply(`*_@${tag} ᴋɪᴄᴋᴇᴅ sᴜᴄᴄᴇssғᴜʟʟʏ_*`, { mentions: [target] });
     } catch (error) {
         console.error('Error while executing kick:', error);
-        reply('❌ An error occurred while executing the command.');
+        reply('*❌ ᴀɴ ᴇʀʀᴏʀ ᴏᴄᴄᴜʀʀᴇᴅ ᴡʜɪʟᴇ ᴇxᴇᴄᴜᴛɪɴɢ ᴛʜᴇ ᴄᴏᴍᴍᴀɴᴅ.*'.);
     }
 });
