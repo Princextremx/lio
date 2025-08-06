@@ -1,6 +1,3 @@
-
-
-
 const { cmd } = require('../command'); // Assurez-vous que cmd est bien défini dans votre projet
 const axios = require('axios');
 
@@ -378,4 +375,4 @@ async (conn, mek, m, { from, l, quoted, body, isCmd, command, args, q, isGroup, 
         await reply('❌ An error occurred while processing your request.');
     }
 });
-*/
+
