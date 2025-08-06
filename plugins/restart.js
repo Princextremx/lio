@@ -3,9 +3,8 @@ const { sleep } = require("../lib/functions");
 
 cmd({  
     pattern: "restart",  
-    desc: "*ʀᴇsᴛᴀʀᴛ xᴛʀᴇᴍᴇ xᴍᴅ*",  
+    desc: "*ʀᴇsᴛᴀʀᴛ ᴍɪɴɪ ʙᴏᴛ*",  
     category: "owner",  
-    react: "🔄",
     filename: __filename  
 },  
 async (conn, mek, m, { reply, isCreator }) => {  
