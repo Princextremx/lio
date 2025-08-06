@@ -38,4 +38,4 @@ await conn.sendMessage(from, { react: { text: `✅`, key: mek.key }})
 reply('*Error !!*')
 l(e)
 }
-})
+});
