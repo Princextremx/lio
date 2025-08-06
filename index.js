@@ -42,6 +42,10 @@ const {
   const os = require('os')
   const Crypto = require('crypto')
   const path = require('path')
+  const mode = config.MODE
+  const online = config.ALWAYS_ONLINE
+  const status = config.AUTO_STATUS_SEEN
+  const reaction = config.AUTO_STATUS_REACT
   const prefix = config.PREFIX
   
   const ownerNumber = ["528145550802"]
@@ -61,68 +65,183 @@ const {
           }
       });
   }
-  
+//=============================================
   // Clear the temp directory every 5 minutes
   setInterval(clearTempDir, 5 * 60 * 1000);
-  
-  //===================SESSION-AUTH============================
-if (!fs.existsSync(__dirname + '/sessions/creds.json')) {
-if(!config.SESSION_ID) return console.log('Please add your session to SESSION_ID env !!')
-const sessdata = config.SESSION_ID.replace("XTREME~XMD~", '');
-const filer = File.fromURL(`https://mega.nz/file/${sessdata}`)
-filer.download((err, data) => {
-if(err) throw err
-fs.writeFile(__dirname + '/sessions/creds.json', data, () => {
-console.log("Session downloaded ✅")
-})})}
+
+//=============================================
 
 const express = require("express");
 const app = express();
-const port = process.env.PORT || 9090;
+const port = process.env.PORT || 7860;
   
-  //=============================================
-  
-  async function connectToWA() {
-  console.log("Connecting to WhatsApp ⏳️...");
-  const { state, saveCreds } = await useMultiFileAuthState(__dirname + '/sessions/')
-  var { version } = await fetchLatestBaileysVersion()
-  
-  const conn = makeWASocket({
-          logger: P({ level: 'silent' }),
-          printQRInTerminal: false,
-          browser: Browsers.macOS("Firefox"),
-          syncFullHistory: true,
-          auth: state,
-          version
-          })
+  //===================SESSION-AUTH============================
+const sessionDir = path.join(__dirname, 'sessions');
+const credsPath = path.join(sessionDir, 'creds.json');
+
+// Create session directory if it doesn't exist
+if (!fs.existsSync(sessionDir)) {
+    fs.mkdirSync(sessionDir, { recursive: true });
+}
+
+async function loadSession() {
+    try {
+        if (!config.SESSION_ID) {
+            console.log('No SESSION_ID provided please put one!');
+            return null;
+        }
+
       
-  conn.ev.on('connection.update', (update) => {
-  const { connection, lastDisconnect } = update
+        console.log('Downloading session data...');
+
+        if (config.SESSION_ID.startsWith('XTREME~XMD**')) {
+            console.log('Downloading Xcall session...');
+            const sessdata = config.SESSION_ID.replace("XTREME~XMD**", '');
+            const response = await axios.get(`https://dave-auth-manager.onrender.com/files/${sessdata}.json`,
+            );
+
+            if (!response.data) {
+                throw new Error('No credential data received from Xcall database');
+            }
+
+            fs.writeFileSync(credsPath, JSON.stringify(response.data), 'utf8');
+            console.log('Xcall session downloaded successfully');
+            return response.data;
+        } 
+        // Otherwise try MEGA.nz download
+        else {
+            console.log('Downloading MEGAsd session...');
+            
+const megaFileId = config.SESSION_ID.startsWith('XTREME~XMD~') 
+    ? config.SESSION_ID.replace("XTREME~XMD~", "") 
+    : config.SESSION_ID;
+
+const filer = File.fromURL(`https://mega.nz/file/${megaFileId}`);
+            
+            const data = await new Promise((resolve, reject) => {
+                filer.download((err, data) => {
+                    if (err) reject(err);
+                    else resolve(data);
+                });
+            });
+            
+            fs.writeFileSync(credsPath, data);
+            console.log('MEGA session downloaded successfully');
+            return JSON.parse(data.toString());
+        }
+    } catch (error) {
+        console.error('❌ Error loading session:', error.message);
+        console.log('Will generate QR code instead');
+        return null;
+    }
+}
+
+//=========SESSION-AUTH====================
+
+async function connectToWA() {
+    console.log("Connecting to WhatsApp ⏳️...");
+    
+    const creds = await loadSession();
+    
+    const { state, saveCreds } = await useMultiFileAuthState(path.join(__dirname, 'sessions'), {
+        creds: creds || undefined // Pass loaded creds if available
+    });
+    
+    const { version } = await fetchLatestBaileysVersion();
+    
+    const conn = makeWASocket({
+        logger: P({ level: 'silent' }),
+        printQRInTerminal: !creds, // Only show QR if no session loaded
+        browser: Browsers.macOS("Firefox"),
+        syncFullHistory: true,
+        auth: state,
+        version,
+        getMessage: async () => ({})
+    });
+    
+    // ... rest of your existing connectToWA code ...
+
+	
+    let startupSent = false;
+
+conn.ev.on('connection.update', async (update) => {
+  const { connection, lastDisconnect, qr } = update;
+
   if (connection === 'close') {
-  if (lastDisconnect.error.output.statusCode !== DisconnectReason.loggedOut) {
-  connectToWA()
+    if (lastDisconnect.error?.output?.statusCode !== DisconnectReason.loggedOut) {
+      console.log('Connection lost, reconnecting...');
+      setTimeout(connectToWA, 5000);
+    } else {
+      console.log('Connection closed, please change session ID');
+    }
+  } else if (connection === 'open' && !startupSent) {
+    startupSent = true;
+    console.log('✅ mini-bot Connected Successfully');
+
+	              // Load plugins
+            const pluginPath = path.join(__dirname, 'plugins');
+            fs.readdirSync(pluginPath).forEach((plugin) => {
+                if (path.extname(plugin).toLowerCase() === ".js") {
+                    require(path.join(pluginPath, plugin));
+                }
+            });
+            console.log('Plugins installed successfully ✅');
+
+    try {
+		// const username = config.REPO.split('/').slice(3, 4)[0];
+ const botname = "𝐌𝐈𝐍𝐈-𝐁𝐎𝐓"; //add your name
+ const ownername = "ρʀιη¢є χтʀємє"; // add your name
+ const ali = { 
+ key: { 
+  remoteJid: 'status@broadcast', 
+  participant: '0@s.whatsapp.net' 
+   }, 
+message:{ 
+  newsletterAdminInviteMessage: { 
+    newsletterJid: '120363418161689316@newsletter', //add your channel jid
+    newsletterName: "𝐌𝐈𝐍𝐈 𝐁𝐎𝐓", //add your bot name
+    caption: botname + ` 𝐌𝐃 ` + ownername, 
+    inviteExpiration: 0
   }
-  } else if (connection === 'open') {
-  console.log('🧬 Installing Plugins')
-  const path = require('path');
-  fs.readdirSync("./plugins/").forEach((plugin) => {
-  if (path.extname(plugin).toLowerCase() == ".js") {
-  require("./plugins/" + plugin);
-  }
-  });
-  console.log('Plugins installed successful ✅')
-  console.log('MINI-XTREME CONNECTED SUCCESSFULLY ✅')
-  
-  let up = `╭─ 「 *\`MINI CONNECT\`* 」
-│❈  *ᴅᴇᴠ*→ *\ᴘʀɪɴᴄᴇ xᴛʀᴇᴍᴇ\*
-│❈  *ʏᴏᴜʀ ᴘʀᴇғɪx*→ *ɞ${config.PREFIX}ʚ*
-│❈  *sᴜᴘᴘᴏʀᴛ* +528145550802
-╰────────────────❍
-> *ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴘʀɪɴᴄᴇ xᴛʀᴇᴍᴇ*`;
-    conn.sendMessage(conn.user.id, { image: { url: `https://files.catbox.moe/p01dj2.jpg` }, caption: up })
-  }
-  })
-  conn.ev.on('creds.update', saveCreds)
+ }
+}
+			
+			
+			
+	     const username = `DybyTech`;
+             const mrfrank = `https://github.com/${username}`;
+	
+                    const upMessage = `╭───「 \`𝐌𝐈𝐍𝐈-𝐁𝐎𝐓\` 」*
+*│• ᴛʏᴘᴇ  .ᴍᴇɴᴜ ᴛᴏ sᴇᴇ ʟɪsᴛ •*
+*│• ʙᴏᴛ ᴀᴍᴀᴢɪɴɢ ғᴇᴀᴛᴜʀᴇs •*
+*│• 🌸ᴅᴇᴠᴇʟᴏᴘᴇʀ: \`ᴘʀɪɴᴄᴇ xᴛʀᴇᴍᴇ\`*
+*│• ⏰ᴀʟᴡᴀʏs ᴏɴʟɪɴᴇ: ${online}*
+*│• 📜ᴘʀᴇғɪx: ${prefix}*
+*│• 🪾ᴍᴏᴅᴇ: ${mode}*
+*│• 🪄sᴛᴀᴛᴜᴛs ᴠɪᴇᴡs: ${status}*
+*│• 🫟sᴛᴀᴛᴜᴛs ʀᴇᴀᴄᴛ: ${reaction}*
+‎*╰───────────────────✑*`;
+                    
+                    await conn.sendMessage(conn.user.id, { 
+                        image: { url: config.MENU_IMAGE_URL || 'https://files.catbox.moe/vtbi4a.jpg' }, 
+			ai: true,
+                        caption: upMessage},{
+			quoted: ali
+                    });
+		
+
+                    
+                } catch (sendError) {
+                    console.error('[❄️] Error sending messages:', sendError);
+                }
+            }
+
+        if (qr) {
+            console.log('[❄️] Scan the QR code to connect or use session ID');
+        }
+    });
+
+    conn.ev.on('creds.update', saveCreds);
 
   //==============================
 
