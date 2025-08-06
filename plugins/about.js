@@ -22,7 +22,7 @@ let about = `╭─ 「 *\`𝐌𝐈𝐍𝐈-𝐁𝐎𝐓\`* 」
 ╰────────────────❍
 > *ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴘʀɪɴᴄᴇ xᴛʀᴇᴍᴇ*`
 await conn.sendMessage(from, {
-    image: { url: 'https://files.catbox.moe/mry39g.jpg' },
+    image: { url: 'https://files.catbox.moe/s25k11.jpg' },
     caption: about,
     contextInfo: {
         mentionedJid: [m.sender],
