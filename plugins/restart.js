@@ -3,7 +3,7 @@ const { sleep } = require("../lib/functions");
 
 cmd({  
     pattern: "restart",  
-    desc: "*ʀᴇsᴛᴀʀᴛ ᴍɪɴɪ ʙᴏᴛ*",  
+    desc: "*ʀᴇsᴛᴀʀᴛ xᴛʀᴇᴍᴇ xᴍᴅ*",  
     category: "owner",  
     react: "🔄",
     filename: __filename  
