@@ -5,7 +5,7 @@ const config = require('../config');
 
 cmd({
     pattern: "alive",
-    alias: ["bot", "online"],
+    alias: ["bot"],
     desc: "Check bot is alive or not",
     category: "main",
     react: "🌟",
@@ -13,7 +13,7 @@ cmd({
 },
 async (conn, mek, m, { from, sender, reply }) => {
     try {
-        const status = `╭─ 「 *\`𝐌𝐈𝐍𝐈-𝐗𝐓𝐑𝐄𝐌𝐄\`* 」
+        const status = `╭─ 「 *\`𝐌𝐈𝐍𝐈-𝐁𝐎𝐓\`* 」
 │✨ *ʙᴏᴛ ɪs ᴀᴄᴛɪᴠᴇ & ᴏɴʟɪɴᴇ!*
 │🧠 *ᴏᴡɴᴇʀ:* ${config.OWNER_NAME}
 │⚡ *ᴠᴇʀsɪᴏɴ:* 1.0.0
@@ -33,7 +33,7 @@ async (conn, mek, m, { from, sender, reply }) => {
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
                     newsletterJid: '120363418161689316@newsletter',
-                    newsletterName: '𝐌𝐈𝐍𝐈-𝐗𝐓𝐑𝐄𝐌𝐄',
+                    newsletterName: '𝐌𝐈𝐍𝐈-𝐁𝐎𝐓',
                     serverMessageId: 143
                 }
             }
