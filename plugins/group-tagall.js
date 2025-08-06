@@ -50,7 +50,7 @@ async (conn, mek, m, { from, participants, reply, isGroup, isAdmins, isCreator, 
         teks += "└──❖ 𝐌𝐈𝐍𝐈-𝐁𝐎𝐓 ❖──";
         
          // Send the image along with the message
-        const imageUrl = "https://files.catbox.moe/sezpgg.jpg";  // Replace with your image URL or local image path
+        const imageUrl = "https://files.catbox.moe/5kq6q7.jpg";  // Replace with your image URL or local image path
         const imageBuffer = await getBuffer(imageUrl);
 
         conn.sendMessage(from, { 
