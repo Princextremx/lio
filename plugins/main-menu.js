@@ -38,11 +38,11 @@ const toSmallCaps = (text) => {
 
 cmd({
   pattern: "menu",
-  alias: ["allmenu", "mini"],
+  alias: ["allmenu", "mega"],
   use: '.menu',
   desc: "Show all bot commands",
   category: "menu",
-  react: "💫",
+  react: "🎴",
   filename: __filename
 },
 async (conn, mek, m, { from, reply }) => {
