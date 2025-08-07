@@ -29,17 +29,7 @@ const smallCaps = {
   "W": "ᴡ",
   "X": "x",
   "Y": "ʏ",
-  "Z": "ᴢ",
-  "1": "𝟷",
-  "2": "𝟸",
-  "3": "𝟹",
-  "4": "𝟺",
-  "5": "𝟻",
-  "6": "𝟻",
-  "7": "𝟽",
-  "9": "𝟾",
-  "9": "𝟿",
-  "0": "𝟶",
+  "Z": "ᴢ"
 };
 
 const toSmallCaps = (text) => {
@@ -51,15 +41,17 @@ cmd({
   alias: ["allmenu", "mini"],
   use: '.menu',
   desc: "Show all bot commands",
-  category: "main",
+  category: "menu",
   react: "💫",
   filename: __filename
 },
 async (conn, mek, m, { from, reply }) => {
   try {
-    const totalCommands = commands.length;
-    const date = moment().tz("America/Port-au-Prince").format("dddd, DD MMMM YYYY");
+       const sender = m?.sender || mek?.key?.participant || mek?.key?.remoteJid || 'unknown@s.whatsapp.net';
+    const username = m.pushName || 'User';
+    const version = config.VERSION || '2.0.0';
 
+    // Infos temps
     const uptime = () => {
       let sec = process.uptime();
       let h = Math.floor(sec / 3600);
@@ -67,17 +59,20 @@ async (conn, mek, m, { from, reply }) => {
       let s = Math.floor(sec % 60);
       return `${h}h ${m}m ${s}s`;
     };
+    const uptimeStr = uptime();
+    const time = moment().tz(config.TIME_ZONE || 'UTC').format('HH:mm:ss');
+    const date = moment().tz(config.TIME_ZONE || 'UTC').format('DD/MM/YYYY');
 
-    let menuText = `╭─ 「 *\`𝐌𝐈𝐍𝐈-𝐁𝐎𝐓\`* 」
-*│* ❈ *ᴜsᴇʀ* : @${m.sender.split("@")[0]}
-*│* ❈ *ʀᴜɴᴛɪᴍᴇ* : ${uptime()}
-*│* ❈ *ᴍᴏᴅᴇ* : ${config.MODE}
-*│* ❈ *ᴘʀᴇғɪx* : [${config.PREFIX}]
-*│* ❈ *ᴩʟᴜɢɪɴ* : ${totalCommands}
-*│* ❈ *ᴅᴇᴠ* : *\`ᴘʀɪɴᴄᴇ xᴛʀᴇᴍᴇ\`*
-*│* ❈ *ᴠᴇʀsɪᴏɴs* : 1.0.0
-*╰────────────────❍*
-`;
+    let menuText = `*╭══〘〘 𝐌𝐄𝐆𝐀𝐋𝐎𝐃𝐎𝐍-𝐌𝐃* 〙〙═⊷
+┃❍ *ᴜsᴇʀ* : @${sender.split("@")[0]}
+┃❍ *ᴘʟᴜɢɪɴs* : ${commands.length}
+┃❍ *ᴅᴀᴛᴇ ᴛᴏᴅᴀʏ* : ${date}
+┃❍ ᴘʀᴇғɪx : [ ${config.PREFIX} ]
+┃❍ *ᴍᴏᴅᴇ* : 『 ${config.MODE} 』
+┃❍ *ᴠᴇʀsɪᴏɴ* : ${version}
+┃❍ *ᴄʀᴇᴀᴛᴏʀ* : ᴅʏʙʏ ᴛᴇᴄʜ 
+╰═════════════════⊷`;
+
 
     let category = {};
     for (let cmd of commands) {
@@ -88,27 +83,27 @@ async (conn, mek, m, { from, reply }) => {
 
     const keys = Object.keys(category).sort();
     for (let k of keys) {
-      menuText += `\n╭─『 *${k.toUpperCase()} BOT🎀* 』`;
+      menuText += `\n┌── 『 * ${k.toUpperCase()}MENU* 』`;
       const cmds = category[k].filter(c => c.pattern).sort((a, b) => a.pattern.localeCompare(b.pattern));
       cmds.forEach((cmd) => {
         const usage = cmd.pattern.split('|')[0];
-        menuText += `\n├◉ ${config.PREFIX}${toSmallCaps(usage)}`;
+        menuText += `\n*┋⁠➳* ${config.PREFIX}${toSmallCaps(usage)}`;
       });
-      menuText += `\n╰────────────────❍`;
+      menuText += `\n╰───────────────❃`;
     }
 
     const selectedStyle = menuText;
 
     await conn.sendMessage(from, {
-      image: { url: 'https://files.catbox.moe/5kq6q7.jpg' },
+      image: { url: config.MENU_IMAGE_URL },
       caption: selectedStyle,
       contextInfo: {
         mentionedJid: [m.sender],
         forwardingScore: 999,
         isForwarded: true,
         forwardedNewsletterMessageInfo: {
-          newsletterJid: '120363418161689316@newsletter',
-          newsletterName: '𝐌𝐈𝐍𝐈-𝐁𝐎𝐓',
+          newsletterJid: '120363401051937059@newsletter',
+          newsletterName: '𝐌𝐄𝐆𝐀𝐋𝐎𝐃𝐎𝐍-𝐌𝐃',
           serverMessageId: 143
         }
       }
