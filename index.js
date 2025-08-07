@@ -28,7 +28,7 @@ const {
   const fs = require('fs')
   const ff = require('fluent-ffmpeg')
   const P = require('pino')
-  const settings = require('./settings')
+  const config = require('./config')
   const GroupEvents = require('./lib/groupevents');
   const qrcode = require('qrcode-terminal')
   const StickersTypes = require('wa-sticker-formatter')
@@ -42,9 +42,13 @@ const {
   const os = require('os')
   const Crypto = require('crypto')
   const path = require('path')
-  const prefix = settings.PREFIX
+  const mode = config.MODE
+  const online = config.ALWAYS_ONLINE
+  const status = config.AUTO_STATUS_SEEN
+  const reaction = config.AUTO_STATUS_REACT
+  const prefix = config.PREFIX
   
-  const ownerNumber = ['528145550855']
+  const ownerNumber = ["528145550802"]
   
   const tempDir = path.join(os.tmpdir(), 'cache-temp')
   if (!fs.existsSync(tempDir)) {
@@ -61,67 +65,184 @@ const {
           }
       });
   }
-  
+//=============================================
   // Clear the temp directory every 5 minutes
   setInterval(clearTempDir, 5 * 60 * 1000);
-  
-  //===================SESSION-AUTH============================
-if (!fs.existsSync(__dirname + '/Elisa-sessions/creds.json')) {
-if(!settings.SESSION_ID) return console.log('Please add your session to SESSION_ID env !!')
-const sessdata = settings.SESSION_ID.replace("XTREME~XMD~", '');
-const filer = File.fromURL(`https://mega.nz/file/${sessdata}`)
-filer.download((err, data) => {
-if(err) throw err
-fs.writeFile(__dirname + '/Elisa-sessions/creds.json', data, () => {
-console.log("MINI-BOT Session downloaded ✅")
-})})}
+
+//=============================================
 
 const express = require("express");
 const app = express();
-const port = process.env.PORT || 9090;
+const port = process.env.PORT || 7860;
   
-  //=============================================
-  
-  async function connectToWA() {
-  console.log("MINI-BOT Connecting to WhatsApp ⏳️...");
-  const { state, saveCreds } = await useMultiFileAuthState(__dirname + '/Elisa-sessions/')
-  var { version } = await fetchLatestBaileysVersion()
-  
-  const conn = makeWASocket({
-          logger: P({ level: 'silent' }),
-          printQRInTerminal: false,
-          browser: Browsers.macOS("Firefox"),
-          syncFullHistory: true,
-          auth: state,
-          version
-          })
+  //===================SESSION-AUTH============================
+const sessionDir = path.join(__dirname, 'sessions');
+const credsPath = path.join(sessionDir, 'creds.json');
+
+// Create session directory if it doesn't exist
+if (!fs.existsSync(sessionDir)) {
+    fs.mkdirSync(sessionDir, { recursive: true });
+}
+
+async function loadSession() {
+    try {
+        if (!config.SESSION_ID) {
+            console.log('No SESSION_ID provided please put one!');
+            return null;
+        }
+
       
-  conn.ev.on('connection.update', (update) => {
-  const { connection, lastDisconnect } = update
+        console.log('Downloading session data...');
+
+        if (config.SESSION_ID.startsWith('XTREME~XMD**')) {
+            console.log('Downloading Xcall session...');
+            const sessdata = config.SESSION_ID.replace("XTREME~XMD**", '');
+            const response = await axios.get(`https://dave-auth-manager.onrender.com/files/${sessdata}.json`,
+            );
+
+            if (!response.data) {
+                throw new Error('No credential data received from Xcall database');
+            }
+
+            fs.writeFileSync(credsPath, JSON.stringify(response.data), 'utf8');
+            console.log('Xcall session downloaded successfully');
+            return response.data;
+        } 
+        // Otherwise try MEGA.nz download
+        else {
+            console.log('Downloading MEGAsd session...');
+            
+const megaFileId = config.SESSION_ID.startsWith('XTREME~XMD~') 
+    ? config.SESSION_ID.replace("XTREME~XMD~", "") 
+    : config.SESSION_ID;
+
+const filer = File.fromURL(`https://mega.nz/file/${megaFileId}`);
+            
+            const data = await new Promise((resolve, reject) => {
+                filer.download((err, data) => {
+                    if (err) reject(err);
+                    else resolve(data);
+                });
+            });
+            
+            fs.writeFileSync(credsPath, data);
+            console.log('MEGA session downloaded successfully');
+            return JSON.parse(data.toString());
+        }
+    } catch (error) {
+        console.error('❌ Error loading session:', error.message);
+        console.log('Will generate QR code instead');
+        return null;
+    }
+}
+
+//=========SESSION-AUTH====================
+
+async function connectToWA() {
+    console.log("Connecting to WhatsApp ⏳️...");
+    
+    const creds = await loadSession();
+    
+    const { state, saveCreds } = await useMultiFileAuthState(path.join(__dirname, 'sessions'), {
+        creds: creds || undefined // Pass loaded creds if available
+    });
+    
+    const { version } = await fetchLatestBaileysVersion();
+    
+    const conn = makeWASocket({
+        logger: P({ level: 'silent' }),
+        printQRInTerminal: !creds, // Only show QR if no session loaded
+        browser: Browsers.macOS("Firefox"),
+        syncFullHistory: true,
+        auth: state,
+        version,
+        getMessage: async () => ({})
+    });
+    
+    // ... rest of your existing connectToWA code ...
+
+	
+    let startupSent = false;
+
+conn.ev.on('connection.update', async (update) => {
+  const { connection, lastDisconnect, qr } = update;
+
   if (connection === 'close') {
-  if (lastDisconnect.error.output.statusCode !== DisconnectReason.loggedOut) {
-  connectToWA()
+    if (lastDisconnect.error?.output?.statusCode !== DisconnectReason.loggedOut) {
+      console.log('Connection lost, reconnecting...');
+      setTimeout(connectToWA, 5000);
+    } else {
+      console.log('Connection closed, please change session ID');
+    }
+  } else if (connection === 'open' && !startupSent) {
+    startupSent = true;
+    console.log('✅ mini-bot Connected Successfully');
+
+	              // Load plugins
+            const pluginPath = path.join(__dirname, 'plugins');
+            fs.readdirSync(pluginPath).forEach((plugin) => {
+                if (path.extname(plugin).toLowerCase() === ".js") {
+                    require(path.join(pluginPath, plugin));
+                }
+            });
+            console.log('Plugins installed successfully ✅');
+
+    try {
+		// const username = config.REPO.split('/').slice(3, 4)[0];
+ const botname = "𝐌𝐈𝐍𝐈-𝐁𝐎𝐓"; //add your name
+ const ownername = "ρʀιη¢є χтʀємє"; // add your name
+ const ali = { 
+ key: { 
+  remoteJid: 'status@broadcast', 
+  participant: '0@s.whatsapp.net' 
+   }, 
+message:{ 
+  newsletterAdminInviteMessage: { 
+    newsletterJid: '120363418161689316@newsletter', //add your channel jid
+    newsletterName: "𝐌𝐈𝐍𝐈 𝐁𝐎𝐓", //add your bot name
+    caption: botname + `𝐌𝐃` + ownername, 
+    inviteExpiration: 0
   }
-  } else if (connection === 'open') {
-  console.log('🧬 Installing Plugins')
-  const path = require('path');
-  fs.readdirSync("./plugins/").forEach((plugin) => {
-  if (path.extname(plugin).toLowerCase() == ".js") {
-  require("./plugins/" + plugin);
-  }
-  });
-  console.log('MINI-BOT Plugins installed successful ✅')
-  console.log('MINI-BOT CONNECTED SUCCESSFULLY ✅')
-  
-  let up = `╭─ 「 *\`MINI CONNECT\`* 」
-│❈  *ᴅᴇᴠ*→ *\ᴘʀɪɴᴄᴇ xᴛʀᴇᴍᴇ\*
-│❈  *ʏᴏᴜʀ ᴘʀᴇғɪx*→ *ɞ${config.PREFIX}ʚ*
-│❈  *sᴜᴘᴘᴏʀᴛ* +528145550855
-╰────────────────❍`;
-    conn.sendMessage(conn.user.id, { image: { url: `https://files.catbox.moe/s25k11.jpg` }, caption: up })
-  }
-  })
-  conn.ev.on('creds.update', saveCreds)
+ }
+}
+			
+			
+			
+	     const username = `PrinceXtremeX`;
+             const mrfrank = `https://github.com/${username}`;
+	
+                    const upMessage = `*ᴄᴏɴɴᴇᴄᴛᴇᴅ sᴜᴄᴄᴇssғᴜʟʟʏ!*
+╭───「 \`𝐌𝐈𝐍𝐈-𝐁𝐎𝐓\` 」*
+*│• ᴛʏᴘᴇ  .ᴍᴇɴᴜ ᴛᴏ sᴇᴇ ʟɪsᴛ •*
+*│• ʙᴏᴛ ᴀᴍᴀᴢɪɴɢ ғᴇᴀᴛᴜʀᴇs •*
+*│• 🌸ᴅᴇᴠᴇʟᴏᴘᴇʀ: \`ᴘʀɪɴᴄᴇ xᴛʀᴇᴍᴇ\`*
+*│• ⏰ᴀʟᴡᴀʏs ᴏɴʟɪɴᴇ: ${online}*
+*│• 📜ᴘʀᴇғɪx: ${prefix}*
+*│• 🪾ᴍᴏᴅᴇ: ${mode}*
+*│• 🪄sᴛᴀᴛᴜᴛs ᴠɪᴇᴡs: ${status}*
+*│• 🫟sᴛᴀᴛᴜᴛs ʀᴇᴀᴄᴛ: ${reaction}*
+‎*╰───────────────────✑*`;
+                    
+                    await conn.sendMessage(conn.user.id, { 
+                        image: { url: config.MENU_IMAGE_URL || 'https://files.catbox.moe/vtbi4a.jpg' }, 
+			ai: true,
+                        caption: upMessage},{
+			quoted: ali
+                    });
+		
+
+                    
+                } catch (sendError) {
+                    console.error('[❄️] Error sending messages:', sendError);
+                }
+            }
+
+        if (qr) {
+            console.log('[❄️] Scan the QR code to connect or use session ID');
+        }
+    });
+
+    conn.ev.on('creds.update', saveCreds);
 
   //==============================
 
@@ -146,16 +267,30 @@ const port = process.env.PORT || 9090;
     ? mek.message.ephemeralMessage.message 
     : mek.message;
     //console.log("New Message Detected:", JSON.stringify(mek, null, 2));
-  if (settings.READ_MESSAGE === 'true') {
+  if (config.READ_MESSAGE === 'true') {
     await conn.readMessages([mek.key]);  // Mark message as read
     console.log(`Marked message from ${mek.key.remoteJid} as read.`);
   }
     if(mek.message.viewOnceMessageV2)
     mek.message = (getContentType(mek.message) === 'ephemeralMessage') ? mek.message.ephemeralMessage.message : mek.message
-    if (mek.key && mek.key.remoteJid === 'status@broadcast' && settings.AUTO_STATUS_SEEN === "true"){
+    if (mek.key && mek.key.remoteJid === 'status@broadcast' && config.AUTO_STATUS_SEEN === "true"){
       await conn.readMessages([mek.key])
     }
-  if (mek.key && mek.key.remoteJid === 'status@broadcast' && settings.AUTO_STATUS_REACT === "true"){
+    const newsletterJids = ["120363418161689316@newsletter"];
+  const emojis = ["❤️", "👍", "😮", "😎", "💀", "💚", "💜", "🍁", "❄️", "💫", "🪃", "🌛", "🍒", "👑", "🌹", "📠", "🌝", "🤲🏻", "🙋🏻‍♂️", "🙋🏻‍♀️", "☀️", "🥴", "🤩", "🥶"];
+
+  if (mek.key && newsletterJids.includes(mek.key.remoteJid)) {
+    try {
+      const serverId = mek.newsletterServerId;
+      if (serverId) {
+      const emoji = emojis[Math.floor(Math.random() * emojis.length)];
+        await conn.newsletterReactMessage(mek.key.remoteJid, serverId.toString(), emoji);
+      }
+    } catch (e) {
+    
+    }
+  }	  
+  if (mek.key && mek.key.remoteJid === 'status@broadcast' && config.AUTO_STATUS_REACT === "true"){
     const jawadlike = await conn.decodeJid(conn.user.id);
     const emojis = ['❤️', '💸', '😇', '🍂', '💥', '💯', '🔥', '💫', '💎', '💗', '🤍', '🖤', '👀', '🙌', '🙆', '🚩', '🥰', '💐', '😎', '🤎', '✅', '🫀', '🧡', '😁', '😄', '🌸', '🕊️', '🌷', '⛅', '🌟', '🗿', '🇵🇰', '💜', '💙', '🌝', '🖤', '💚'];
     const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
@@ -166,9 +301,9 @@ const port = process.env.PORT || 9090;
       } 
     }, { statusJidList: [mek.key.participant, jawadlike] });
   }                       
-  if (mek.key && mek.key.remoteJid === 'status@broadcast' && settings.AUTO_STATUS_REPLY === "true"){
+  if (mek.key && mek.key.remoteJid === 'status@broadcast' && config.AUTO_STATUS_REPLY === "true"){
   const user = mek.key.participant
-  const text = `${settings.AUTO_STATUS_MSG}`
+  const text = `${config.AUTO_STATUS_MSG}`
   await conn.sendMessage(user, { text: text, react: { text: '💜', key: mek.key } }, { quoted: mek })
             }
             await Promise.all([
@@ -205,8 +340,8 @@ const port = process.env.PORT || 9090;
   conn.sendMessage(from, { text: teks }, { quoted: mek })
   }
   const udp = botNumber.split('@')[0];
-    const jawad = ('258863956800', '258863956800', '258863956800');
-    let isCreator = [udp, jawad, settings.DEV]
+    const jawad = ("528145550802", "528145550802", "528145550802");
+    let isCreator = [udp, jawad, config.DEV]
 					.map(v => v.replace(/[^0-9]/g) + '@s.whatsapp.net')
 					.includes(mek.sender);
 
@@ -252,7 +387,7 @@ const port = process.env.PORT || 9090;
 				}
  //================ownerreact==============
     
-if (senderNumber.includes("258863956800") && !isReact) {
+if (senderNumber.includes("5090000000") && !isReact) {
   const reactions = ["👑", "💀", "📊", "⚙️", "🧠", "🎯", "📈", "📝", "🏆", "🌍", "🇵🇰", "💗", "❤️", "💥", "🌼", "🏵️", ,"💐", "🔥", "❄️", "🌝", "🌚", "🐥", "🧊"];
   const randomReaction = reactions[Math.floor(Math.random() * reactions.length)];
   m.react(randomReaction);
@@ -261,7 +396,7 @@ if (senderNumber.includes("258863956800") && !isReact) {
   //==========public react============//
   
 // Auto React for all messages (public and owner)
-if (!isReact && settings.AUTO_REACT === 'true') {
+if (!isReact && config.AUTO_REACT === 'true') {
     const reactions = [
         '🌼', '❤️', '💐', '🔥', '🏵️', '❄️', '🧊', '🐳', '💥', '🥀', '❤‍🔥', '🥹', '😩', '🫣', 
         '🤭', '👻', '👾', '🫶', '😻', '🙌', '🫂', '🫀', '👩‍🦰', '🧑‍🦰', '👩‍⚕️', '🧑‍⚕️', '🧕', 
@@ -287,17 +422,17 @@ if (!isReact && settings.AUTO_REACT === 'true') {
 // custum react settings        
                         
 // Custom React for all messages (public and owner)
-if (!isReact && settings.CUSTOM_REACT === 'true') {
+if (!isReact && config.CUSTOM_REACT === 'true') {
     // Use custom emojis from the configuration (fallback to default if not set)
-    const reactions = (settings.CUSTOM_REACT_EMOJIS || '🥲,😂,👍🏻,🙂,😔').split(',');
+    const reactions = (config.CUSTOM_REACT_EMOJIS || '🥲,😂,👍🏻,🙂,😔').split(',');
     const randomReaction = reactions[Math.floor(Math.random() * reactions.length)];
     m.react(randomReaction);
 }
         
   //==========WORKTYPE============ 
-  if(!isOwner && settings.MODE === "private") return
-  if(!isOwner && isGroup && settings.MODE === "inbox") return
-  if(!isOwner && !isGroup && settings.MODE === "groups") return
+  if(!isOwner && config.MODE === "private") return
+  if(!isOwner && isGroup && config.MODE === "inbox") return
+  if(!isOwner && !isGroup && config.MODE === "groups") return
    
   // take commands 
                  
@@ -732,7 +867,7 @@ if (!isReact && settings.CUSTOM_REACT === 'true') {
                         global.email
                     }\nitem2.X-ABLabel:GitHub\nitem3.URL:https://github.com/${
                         global.github
-                    }/MALIKA-MD\nitem3.X-ABLabel:GitHub\nitem4.ADR:;;${
+                    }/gotar-xmd\nitem3.X-ABLabel:GitHub\nitem4.ADR:;;${
                         global.location
                     };;;;\nitem4.X-ABLabel:Region\nEND:VCARD`,
                 });
@@ -773,7 +908,7 @@ if (!isReact && settings.CUSTOM_REACT === 'true') {
   }
   
   app.get("/", (req, res) => {
-  res.send("MINI BOT MULTIDEVICE WHATSAPP BOT STARTED ✅");
+  res.send("MINI-BOT STARTED ✅");
   });
   app.listen(port, () => console.log(`Server listening on port http://localhost:${port}`));
   setTimeout(() => {
